@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [theme, setTheme] = useState(null)
+
+  useEffect( () => {
+    
+    if( window.matchMedia('(prefers-color-scheme:dark)').matches ){
+      setTheme("dark")
+    }
+    else{
+      setTheme("light")
+    }
+
+  }, [] )
+
+  
+  useEffect( () => {
+    
+    if(theme === "dark"){
+      document.documentElement.classList.add("dark")
+    } 
+    else{
+      document.documentElement.classList.remove("dark")
+    }
+
+  }, [theme] );
+
+  const handleThemeSwitch = () => {
+    setTheme( theme === "dark" ? "light" : "dark")
+  }
+
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen bg-white dark:bg-black flex justify-center items-center">
+      <button onClick={handleThemeSwitch} className='p-2 bg-green-500 text-xl rounded-lg' >Dark Mode</button>
     </div>
   );
 }
